@@ -18,9 +18,17 @@
         "illuminate/database": "^9.4",
         "illuminate/events": "^9.4"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
     "autoload": {
         "psr-4": {
             "Elytica\\ComputeClient\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Elytica\\ComputeClient\\Tests\\": "tests/"
         }
     }
 }
