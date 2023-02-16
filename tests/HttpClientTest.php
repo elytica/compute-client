@@ -33,9 +33,19 @@ class HttpClientTest extends TestCase {
         $this->assertIsArray($applications);
     }
 
-    public function testGetUserSubscription() {
-        $userId = 1;
-        $subscription = $this->httpClient->getUserSubscription($userId, true);
-        $this->assertIsArray($subscription);
+    public function testCreateNewProjectAndJob() {
+        $projectName = "Test Project";
+        $projectDesc = "This is a test project";
+        $applications = $this->httpClient->getApplications(true);
+        $this->assertIsArray($applications);
+        $this->assertGreaterThanOrEqual(1, count($applications));
+        $project = $this->httpClient->createNewProject($projectName, $projectDesc, $applications[0]->id, true);
+        $this->assertEquals($projectName, $project->name);
+        $this->assertEquals($projectDesc, $project->description);
+        $this->assertIsInt($project->id);
+        $jobName = "Test Job";
+        $job = $this->httpClient->createNewJob($project->id, $jobName, true);
+        $this->assertEquals($jobName, $job->name);
     }
+
 }

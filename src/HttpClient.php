@@ -35,43 +35,35 @@ class HttpClient extends Http {
       try {
           $this->downloadRequest("api/projects/$project_id/download/$file_id", $filepath);
       } catch(RequestException $e) {
-          // Handle the exception here
           $response = $e->getResponse();
-          $statusCode = $response->getStatusCode();
-          $reason = $response->getReasonPhrase();
-          // ...
           return false;
       }
       return true;
   }
 
-  function getUserSubscription($user_id) {
+  function getApplications() {
     try {
-      return $this->getRequest("api/useractivesubscriptions/$user_id");
+      return $this->getRequest("api/applications");
     } catch(\Exception $e) {
        $this->catchResponseFailure($e);
     }
   }
 
-  function uploadResults($path, $project_id, $job_id) {
-    try {
-      $files = array_diff(scandir($path), array(".", ".."));
-      $multipart = [];
-      foreach($files as $file) {
-        array_push($multipart, [
-          "name" => "files[]",
-          "filename" => $file,
-          "contents" => file_get_contents($path . $file)
-        ]);
-      }
-      $this->httpClient->request("POST",
-        $_ENV["url"] . "/api/projects/" . $project_id . "/uploadoutput/" . $job_id,
-        ["headers" => $this->headers,
-          "multipart" => $multipart
-        ], $this->options);
-    } catch(\Exception $e) {
-       $this->catchResponseFailure($e);
-    }
+  function createNewProject($project_name, $project_description, $application) {
+    $data = array(
+      "name" => $project_name,
+      "description" => $project_description,
+      "application" => $application
+    );
+    return $this->postRequest("api/projects", $data);
+  }
+
+  function createNewJob($project_id, $job_name) {
+    $data = array(
+      "name" => $job_name,
+      "priority" => 100
+    );
+    return $this->postRequest("api/projects/$project_id/createjob", $data);
   }
 
   function whoami() {

@@ -42,7 +42,8 @@ class Http {
   }
 
   protected function postRequest(String $route, $data=[]) {
-    return $this->request("POST", $route, $data);
+    return json_decode($this->request("POST", $route, $data)
+             ->getBody()->getContents(), false);
   }
 
   protected function postMultipart(String $route, $data=[]) {

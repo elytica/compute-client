@@ -13,9 +13,9 @@ class WebsocketClient {
   protected $client, $react_connector, $channels = array(),
     $socket_id, $alive, $timeout;
   protected $ws_url, $auth_url;
-  protected $app_key;
+  protected $app_key, $app_id;
   public $loop;
-  function __construct($auth_url, $ws_url, $app_key, $timeout) {
+  function __construct($auth_url, $ws_url, $app_key, $app_id, $timeout) {
     $this->loop = Factory::create();
     $this->client = new Client(['verify' => false]);
     $this->react_connector = new ReactConnector($this->loop, ['timeout' => 10]);
@@ -24,6 +24,7 @@ class WebsocketClient {
     $this->app_key = $app_key;
     $this->timeout = $timeout;
     $this->auth_url = $auth_url;
+    $this->app_id = $app_id;
   }
 
   function run() {
@@ -69,7 +70,7 @@ class WebsocketClient {
   }
 
   public function sendChannelAuth($channel_name) {
-    $options['timeout'] = $timeout;
+    $options['timeout'] = $this->timeout;
     $contents = json_decode($this->client->request('POST',
       $this->auth_url, [
         'headers' => [
