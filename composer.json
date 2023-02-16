@@ -1,0 +1,26 @@
+{
+    "name": "elytica/compute-client",
+    "description": "PHP implementation for the elytica Compute API.",
+    "type": "library",
+    "keywords": ["elytica", "integer-programming"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ruan Luies",
+            "email": "ruan@elytica.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^6.4",
+        "ratchet/pawl": "^0.3.5",
+        "react/http": "^1.5.0",
+        "vlucas/phpdotenv": "^5.4",
+        "illuminate/database": "^9.4",
+        "illuminate/events": "^9.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Elytica\\ComputeClient\\": "src/"
+        }
+    }
+}
