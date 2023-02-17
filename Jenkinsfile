@@ -35,18 +35,22 @@
     stage('Generate version') {
       steps {
         script {
-          sh 'git tag | xargs git tag -d'
-          def standardVersionStatus = sh(script: 'standard-version --tag-prefix "" --no-verify', returnStatus: true)
-          if (standardVersionStatus != 0) {
-            echo "standard-version failed with exit code ${standardVersionStatus}"
-          } else {
-            env.NEW_VERSION = sh(script: 'git describe --tags --abbrev=0 HEAD', returnStdout: true).trim()
-            sh "git remote set-url origin git@github.com:elytica/compute-client.git"
-            sh "git checkout main && git pull"
-            sh "sed -i 's/\"version\": \".*\"/\"version\": \"${env.NEW_VERSION}\"/' composer.json"
-            sh "git add composer.json composer.lock"
-            sh "git commit -m 'chore(release): update composer package version to ${env.NEW_VERSION}'"
-            sh "git push --follow-tags"
+
+          def chore = sh(script: 'git log -n 1 | grep "chore(release):"', returnStatus: true)
+          if (!chore) {
+            sh 'git tag | xargs git tag -d'
+            def standardVersionStatus = sh(script: 'standard-version --tag-prefix "" --no-verify', returnStatus: true)
+            if (standardVersionStatus != 0) {
+              echo "standard-version failed with exit code ${standardVersionStatus}"
+            } else {
+              env.NEW_VERSION = sh(script: 'git describe --tags --abbrev=0 HEAD', returnStdout: true).trim()
+              sh "git remote set-url origin git@github.com:elytica/compute-client.git"
+              sh "git checkout main && git pull"
+              sh "sed -i 's/\"version\": \".*\"/\"version\": \"${env.NEW_VERSION}\"/' composer.json"
+              sh "git add composer.json composer.lock"
+              sh "git commit -m 'chore(release): update composer package version to ${env.NEW_VERSION}'"
+              sh "git push --follow-tags"
+            }
           }
         }
       }
