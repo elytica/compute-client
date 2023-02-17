@@ -16,9 +16,9 @@ pipeline {
       steps {
         sh 'composer install --prefer-dist --no-interaction'
         script {
-          sh 'which standard-version'
+          sh 'which git-conventional-commits'
           if (env.EXIT_STATUS != 0) {
-            sh 'sudo npm install -g standard-version'
+            sh 'sudo npm install -g git-conventional-commits'
           }
         }
       }
@@ -35,11 +35,8 @@ pipeline {
     stage('Generate version') {
       steps {
         script {
-          def standardVersionStatus = sh(script: 'standard-version --release-as "" --tag-prefix "" --no-verify', returnStatus: true)
-          if (standardVersionStatus != 0) {
-            echo "standard-version failed with exit code ${standardVersionStatus}"
-          } else {
-            env.NEW_VERSION = sh(script: 'git describe --tags --abbrev=0 HEAD', returnStdout: true).trim()
+            env.NEW_VERSION = sh(script: 'git-conventional-commits version', returnStdout: true).trim()
+            sh "git-conventional-commits changelog > CHANGELOG.md"
             sh "git remote set-url origin git@github.com:elytica/compute-client.git"
             sh "git checkout main"
             sh "sed -i 's/\"version\": \".*\"/\"version\": \"${env.NEW_VERSION}\"/' composer.json"
@@ -47,7 +44,6 @@ pipeline {
             sh "git commit -m 'chore(release): Update version to ${env.NEW_VERSION}'"
             sh "git push origin main"
             sh "git push origin ${env.NEW_VERSION}"
-          }
         }
       }
     }
