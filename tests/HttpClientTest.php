@@ -23,16 +23,6 @@ class HttpClientTest extends TestCase {
         $this->assertIsString($userName);
     }
 
-    public function testGetUnfinishedJobs() {
-        $jobs = $this->httpClient->getUnfinishedJobs(true);
-        $this->assertIsArray($jobs);
-    }
-
-    public function testGetAllApplications() {
-        $applications = $this->httpClient->getAllApplications(true);
-        $this->assertIsArray($applications);
-    }
-
     public function testCreateNewProjectAndJob() {
         $projectName = "Test Project";
         $projectDesc = "This is a test project";

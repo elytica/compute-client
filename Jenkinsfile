@@ -12,17 +12,18 @@ pipeline {
             }
         }
 
-
         stage('Install dependencies') {
             steps {
                 sh 'composer install --prefer-dist --no-interaction'
                 script {
-                    if (!which('standard-version')) {
-                        sh 'npm install -g standard-version'
+                    sh 'which standard-version'
+                    if (env.EXIT_STATUS != 0) {
+                        sh 'sudo npm install -g standard-version'
                     }
                 }
             }
         }
+
 
         stage('Run unit tests') {
             steps {

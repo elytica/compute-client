@@ -20,14 +20,6 @@ class HttpClient extends Http {
     return $this->user->name;
   }
 
-  function getUnfinishedJobs() {
-    return $this->getRequest("api/unfinishedjobs");
-  }
-
-  function getAllApplications() {
-    return $this->getRequest("api/applications/all");
-  }
-
   function downloadFile($project_id, $file_id, $filepath) {
       if (!is_dir(dirname($filepath))) {
           return false;
