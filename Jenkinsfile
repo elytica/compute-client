@@ -37,7 +37,7 @@
         script {
 
           def chore = sh(script: 'git log -n 1 | grep "chore(release):"', returnStatus: true)
-          if (!chore) {
+          if (chore != 0) {
             sh 'git tag | xargs git tag -d'
             def standardVersionStatus = sh(script: 'standard-version --tag-prefix "" --no-verify', returnStatus: true)
             if (standardVersionStatus != 0) {
