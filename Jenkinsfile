@@ -48,7 +48,7 @@
               sh "git remote set-url origin git@github.com:elytica/compute-client.git"
               sh "git checkout main && git pull"
               sh "sed -i 's/\"version\": \".*\"/\"version\": \"${env.NEW_VERSION}\"/' composer.json"
-              sh "git add composer.json composer.lock"
+              sh "git add composer.json composer.lock CHANGELOG.md"
               sh "git commit -m 'chore(release): update composer package version to ${env.NEW_VERSION}'"
               sh "git push --follow-tags"
             }
