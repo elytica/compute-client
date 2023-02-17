@@ -1,4 +1,4 @@
-pipeline {
+ pipeline {
   agent any
 
   environment {
@@ -16,9 +16,9 @@ pipeline {
       steps {
         sh 'composer install --prefer-dist --no-interaction'
         script {
-          sh 'which git-conventional-commits'
+          sh 'which standard-version'
           if (env.EXIT_STATUS != 0) {
-            sh 'sudo npm install -g git-conventional-commits'
+            sh 'sudo npm install -g standard-version'
           }
         }
       }
@@ -35,15 +35,19 @@ pipeline {
     stage('Generate version') {
       steps {
         script {
-            env.NEW_VERSION = sh(script: 'git-conventional-commits version', returnStdout: true).trim()
-            sh "git-conventional-commits changelog > CHANGELOG.md"
+          sh 'git tag | xargs git tag -d'
+          def standardVersionStatus = sh(script: 'standard-version --tag-prefix "" --no-verify', returnStatus: true)
+          if (standardVersionStatus != 0) {
+            echo "standard-version failed with exit code ${standardVersionStatus}"
+          } else {
+            env.NEW_VERSION = sh(script: 'git describe --tags --abbrev=0 HEAD', returnStdout: true).trim()
             sh "git remote set-url origin git@github.com:elytica/compute-client.git"
             sh "git checkout main"
             sh "sed -i 's/\"version\": \".*\"/\"version\": \"${env.NEW_VERSION}\"/' composer.json"
-            sh "git add composer.json composer.lock CHANGELOG.md"
-            sh "git commit -m 'chore(release): Update version to ${env.NEW_VERSION}'"
-            sh "git push origin main"
-            sh "git push origin ${env.NEW_VERSION}"
+            sh "git add composer.json composer.lock"
+            sh "git commit -m 'chore(release): update composer package version to ${env.NEW_VERSION}'"
+            sh "git push --follow-tags"
+          }
         }
       }
     }
