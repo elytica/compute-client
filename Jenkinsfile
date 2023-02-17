@@ -50,7 +50,7 @@ pipeline {
     stage('Upload to Packagist') {
       steps {
         withCredentials([usernamePassword(credentialsId: 'packagist-username', usernameVariable: 'PACKAGIST_USERNAME', passwordVariable: 'PACKAGIST_APIKEY')]) {
-          sh "composer config --global --auth http-basic.repo.packagist.com ${PACKAGIST_USERNAME} '${PACKAGIST_APIKEY}'"
+          sh "composer config --global --auth http-basic.repo.packagist.com ${PACKAGIST_USERNAME} -- '${PACKAGIST_APIKEY}'"
           dsh "composer update --with-dependencies"
           dsh "composer version ${env.NEW_VERSION}"
           dsh "git add composer.json composer.lock"
