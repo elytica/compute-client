@@ -11,15 +11,7 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Generate version') {
-            steps {
-                script {
-                    def newVersion = sh(script: 'standard-version --dry-run | tee .version', returnStdout: true).trim().replaceAll(/^v/, '')
-                    env.NEW_VERSION = newVersion
-                    sh "sed -i '' -e 's/\"version\": \".*\"/\"version\": \"${newVersion}\"/' composer.json"
-                }
-            }
-        }
+
 
         stage('Install dependencies') {
             steps {
@@ -36,6 +28,16 @@ pipeline {
             steps {
                 withEnv(["COMPUTE_TOKEN=${COMPUTE_TOKEN}"]) {
                     sh 'vendor/bin/phpunit tests/'
+                }
+            }
+        }
+
+        stage('Generate version') {
+            steps {
+                script {
+                    def newVersion = sh(script: 'standard-version --dry-run | tee .version', returnStdout: true).trim().replaceAll(/^v/, '')
+                    env.NEW_VERSION = newVersion
+                    sh "sed -i '' -e 's/\"version\": \".*\"/\"version\": \"${newVersion}\"/' composer.json"
                 }
             }
         }
