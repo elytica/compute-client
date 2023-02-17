@@ -43,8 +43,9 @@ pipeline {
             sh "sed -i 's/\"version\": \".*\"/\"version\": \"${env.NEW_VERSION}\"/' composer.json"
             sh "git add composer.json composer.lock"
             sh "git commit -m 'chore(release): Update version to ${env.NEW_VERSION}'"
-            sh "git push origin ${env.NEW_VERSION}"
-            sh "git push origin HEAD"
+            def git = scm.gitTool("default")
+            git.push("origin", env.NEW_VERSION)
+            git.push("origin", "HEAD")
           }
         }
       }
