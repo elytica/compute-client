@@ -40,12 +40,13 @@ pipeline {
             echo "standard-version failed with exit code ${standardVersionStatus}"
           } else {
             env.NEW_VERSION = sh(script: 'git describe --tags --abbrev=0 HEAD', returnStdout: true).trim()
+            sh "git remote set-url origin git@github.com:elytica/compute-client.git"
+            sh "git checkout main"
             sh "sed -i 's/\"version\": \".*\"/\"version\": \"${env.NEW_VERSION}\"/' composer.json"
             sh "git add composer.json composer.lock"
             sh "git commit -m 'chore(release): Update version to ${env.NEW_VERSION}'"
-            sh "git remote set-url origin git@github.com:elytica/compute-client.git"
+            sh "git push origin main"
             sh "git push origin ${env.NEW_VERSION}"
-            sh "git push origin HEAD"
           }
         }
       }
