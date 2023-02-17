@@ -51,6 +51,7 @@
               sh "git add composer.json composer.lock CHANGELOG.md"
               sh "git commit -m 'chore(release): update composer package version to ${env.NEW_VERSION}'"
               sh "git tag origin ${env.NEW_VERSION}"
+              sh "git push origin ${env.NEW_VERSION}"
               sh "git push --follow-tags"
             }
           }
