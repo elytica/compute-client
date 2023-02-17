@@ -36,5 +36,3 @@ All notable changes to this project will be documented in this file. See [standa
 * use ssh key to push. ([bc2ea71](https://github.com/elytica/compute-client/commit/bc2ea7134871b0fd7356c7a27f778fe1a53b3fc9))
 * use standard-version. ([32e5aeb](https://github.com/elytica/compute-client/commit/32e5aeb7cabb1ee394f5e31f4136fc240da21995))
 * yet another typo. ([2460aaf](https://github.com/elytica/compute-client/commit/2460aaf37bf0e30c079f10e34bd175c1c15c5348))
-
-### [1.1.6](https://github.com/elytica/compute-client/compare/v1.1.5...v1.1.6) (2023-02-17)
