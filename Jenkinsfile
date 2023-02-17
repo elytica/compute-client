@@ -15,6 +15,11 @@ pipeline {
         stage('Install dependencies') {
             steps {
                 sh 'composer install --prefer-dist --no-interaction'
+                script {
+                    if (!which('standard-version')) {
+                        sh 'npm install -g standard-version'
+                    }
+                }
             }
         }
 
@@ -28,9 +33,9 @@ pipeline {
 
         stage('Generate version') {
             steps {
-                sh 'composer global require conventional-commits-releaser'
-                sh 'conventional-commits-releaser'
-                env.NEW_VERSION = sh(script: 'cat .version', returnStdout: true).trim()
+                script {
+                    env.NEW_VERSION = sh(script: 'standard-version --dry-run | tee .version', returnStdout: true).trim()
+                }
             }
         }
 
