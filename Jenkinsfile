@@ -36,18 +36,22 @@ pipeline {
     stage('Generate version') {
       steps {
         script {
-          sh 'standard-version --release-as "" --tag-prefix "" --no-verify'
-          env.NEW_VERSION = sh(script: 'git describe --tags --abbrev=0 HEAD', returnStdout: true).trim()
-          sh "sed -i 's/\"version\": \".*\"/\"version\": \"${env.NEW_VERSION}\"/' composer.json"
+          def standardVersionStatus = sh(script: 'standard-version --release-as "" --tag-prefix "" --no-verify', returnStatus: true)
+          if (standardVersionStatus != 0) {
+            echo "standard-version failed with exit code ${standardVersionStatus}"
+          } else {
+            env.NEW_VERSION = sh(script: 'git describe --tags --abbrev=0 HEAD', returnStdout: true).trim()
+            sh "sed -i 's/\"version\": \".*\"/\"version\": \"${env.NEW_VERSION}\"/' composer.json"
+          }
         }
       }
     }
 
     stage('Upload to Packagist') {
       steps {
-        withCredentials([string(credentialsId: 'packagist-username', variable: 'PACKAGIST_USERNAME'), string(credentialsId: 'packagist-apikey', variable: 'PACKAGIST_APIKEY')]) {
-          sh "composer config --global --auth http-basic.repo.packagist.com ${PACKAGIST_USERNAME} ${PACKAGIST_APIKEY}"
-          sh "composer version ${NEW_VERSION}"
+        withCredentials([usernamePassword(credentialsId: 'packagist-username', usernameVariable: 'PACKAGIST_USERNAME', passwordVariable: 'PACKAGIST_APIKEY')]) {
+          sh "composer config --global --auth http-basic.repo.packagist.com ${PACKAGIST_USERNAME} -- '${PACKAGIST_APIKEY}'"
+          sh "composer version ${env.NEW_VERSION}"
           sh 'composer upload'
         }
       }
