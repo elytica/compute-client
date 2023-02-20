@@ -44,7 +44,7 @@
               env.NEW_VERSION = sh(script: 'git describe --tags --abbrev=0 HEAD', returnStdout: true).trim()
               sh "git remote set-url origin git@github.com:elytica/compute-client.git"
               sh "git checkout main && git pull"
-              sh "git add composer.json composer.lock CHANGELOG.md"
+              sh "git add -f CHANGELOG.md"
               sh "git commit -m 'chore(release): update composer package version to ${env.NEW_VERSION}'"
               sh "git tag ${env.NEW_VERSION}"
               sh "git push --tags"
