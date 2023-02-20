@@ -41,6 +41,11 @@ class Http {
       ->getBody()->getContents(), false);
   }
 
+  protected function deleteRequest(String $route, $data=[]) {
+    return $this->request("DELETE", $route, $data);
+  }
+
+
   protected function postRequest(String $route, $data=[]) {
     return json_decode($this->request("POST", $route, $data)
              ->getBody()->getContents(), false);

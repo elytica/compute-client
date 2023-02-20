@@ -21,16 +21,16 @@ class HttpClient extends Http {
   }
 
   function downloadFile($project_id, $file_id, $filepath) {
-      if (!is_dir(dirname($filepath))) {
-          return false;
-      }
-      try {
-          $this->downloadRequest("api/projects/$project_id/download/$file_id", $filepath);
-      } catch(RequestException $e) {
-          $response = $e->getResponse();
-          return false;
-      }
-      return true;
+    if (!is_dir(dirname($filepath))) {
+      return false;
+    }
+    try {
+      $this->downloadRequest("api/projects/$project_id/download/$file_id", $filepath);
+    } catch(RequestException $e) {
+      $response = $e->getResponse();
+      return false;
+    }
+    return true;
   }
 
   function getApplications() {
@@ -39,6 +39,18 @@ class HttpClient extends Http {
     } catch(\Exception $e) {
        $this->catchResponseFailure($e);
     }
+  }
+
+  public function getProjects() {
+    return $this->getRequest("api/projects");
+  }
+
+  public function getJobs($project_id) {
+		return $this->getRequest("api/projects/$project_id/getjobs");
+  }
+
+  public function deleteProject($project_id) {
+    return $this->deleteRequest("api/projects/${project_id}");
   }
 
   function createNewProject($project_name, $project_description, $application) {
