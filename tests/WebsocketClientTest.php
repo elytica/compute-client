@@ -7,8 +7,8 @@ class WebsocketClientTest extends TestCase
 {
   private $auth_url, $ws_url, $token;
   private $client;
-  private function setupProjectAndJob(callable $callback)
-  {
+
+  private function setupProjectAndJob() {
     $projectName = "Test Project";
     $projectDesc = "This is a test project";
     $applications = $this->httpClient->getApplications(true);
@@ -21,6 +21,12 @@ class WebsocketClientTest extends TestCase
     $jobName = "Test Job";
     $job = $this->httpClient->createNewJob($project->id, $jobName, true);
     $this->assertEquals($jobName, $job->name);
+    return array($job, $project);
+  }
+
+  private function setupWebsockets(array $project_and_job, callable $callback)
+  {
+    list($job, $project) = $project_and_job;
     $job_channel = "presence-jobs.$job->id";
     $success = false;
     $client = new WebsocketClient($this->auth_url, $this->ws_url, 'elytica_service', 'elytica_service', $this->token, 3);
@@ -63,7 +69,7 @@ class WebsocketClientTest extends TestCase
 
   public function testSubscribeChannel()
   {
-    $this->setupProjectAndJob(function ($client, $message, $conn) {
+    $this->setupWebsockets($this->setupProjectAndJob(), function ($client, $message, $conn) {
 				if ($message->event == 'pusher_internal:subscription_succeeded') {
       $client->stop();
       return true;

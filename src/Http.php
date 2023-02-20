@@ -54,6 +54,24 @@ class Http {
   protected function postMultipart(String $route, $data=[]) {
     return $this->request("POST", $route, $data);
   }
+  
+  protected function uploadFile(String $route, String $path, String $filename) {
+    try {
+      $multipart = [
+        [
+          "name" => "files[]",
+          "filename" => $filename,
+          "contents" => file_get_contents($path)
+        ]
+      ];
+      return $this->request("POST", $route,
+        ["headers" => $this->headers,
+          "multipart" => $multipart
+        ], $this->options);
+    } catch(\Exception $e) {
+       $this->catchResponseFailure($e);
+    }
+  }
 }
 
 ?>
