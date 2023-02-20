@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.3](https://github.com/elytica/compute-client/compare/0.0.2...0.0.3) (2023-02-20)
+
+
+### Features
+
+* split project creation and websockets in unit test. ([29a56ad](https://github.com/elytica/compute-client/commits/29a56ad90a32882c614ab42b779f87949a0876db))
+
 ### [0.0.2](https://github.com/elytica/compute-client/compare/0.0.1...0.0.2) (2023-02-20)
 
 
