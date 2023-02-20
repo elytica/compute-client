@@ -35,19 +35,15 @@
     stage('Generate version') {
       steps {
         script {
+          sh "git remote set-url origin git@github.com:elytica/compute-client.git"
+          sh "git checkout main && git pull"
           def chore = sh(script: 'git log -n 1 | grep "chore(release):"', returnStatus: true)
           if (chore != 0) {
             def standardVersionStatus = sh(script: 'standard-version --tag-prefix "" --no-verify', returnStatus: true)
             if (standardVersionStatus != 0) {
               echo "standard-version failed with exit code ${standardVersionStatus}"
             } else {
-              sh "git remote set-url origin git@github.com:elytica/compute-client.git"
-              sh "git checkout main && git pull"
-              env.NEW_VERSION = sh(script: 'git describe --tags --abbrev=0', returnStdout: true).trim()
-              sh "git add -f CHANGELOG.md"
-              sh "git commit -m 'chore(release): update composer package version to ${env.NEW_VERSION}'"
-              sh "git tag ${env.NEW_VERSION}"
-              sh "git push --tags"
+              sh "git push --follow-tags origin main"
             }
           }
         }
