@@ -2,7 +2,10 @@
     "name": "elytica/compute-client",
     "description": "PHP implementation for the elytica Compute API.",
     "type": "library",
-    "keywords": ["elytica", "integer-programming"],
+    "keywords": [
+        "elytica",
+        "integer-programming"
+    ],
     "license": "MIT",
     "authors": [
         {
