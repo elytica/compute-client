@@ -1,0 +1,30 @@
+ pipeline {
+ agent any
+
+  environment {
+    GITHUB_TOKEN = credentials('compute-client-github-token')
+  }
+
+  stages {
+    stage('Install release-please') {
+      steps {
+        script {
+          sh 'which release-please'
+          if (env.EXIT_STATUS != 0) {
+            sh 'sudo npm install -g release-please'
+          }
+        }
+      }
+    }
+
+    stage('Create Release PR') {
+      steps {
+        script {
+
+          sh ""release-please release-pr --release-type="php" --token=${GITHUB_TOKEN} --repo-url=https://github.com/elytica/compute-client"
+        }
+      }
+    }
+  }
+}
+
