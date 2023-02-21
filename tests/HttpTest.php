@@ -47,7 +47,7 @@ class TestHttp extends Http {
   }
 
   public function testPutRequest($route, $data=[]) {
-    return $this->putRequest($route, $data);
+    return $this->putRequest($route, $data); 
   }
 
   public function getHttpClient() {

@@ -24,53 +24,70 @@ class Http {
       $this->options);
   }
 
-  protected function getRequest(String $route, $data=[]) {
-    return json_decode($this->request("GET", $route, $data)
-      ->getBody()->getContents(), false);
+  protected function postMultipart(String $route, $data = []) {
+    return $this->httpClient->request("POST",
+      "$this->base_url/$route",
+      ["headers" => $this->headers, "multipart" => $data],
+      $this->options);
   }
 
-  protected function downloadRequest(String $route, $data=[]) {
+  protected function downloadRequest(String $route, $data) {
     return $this->httpClient->request("GET",
       "$this->base_url/$route",
       ["headers" => $this->headers, "sink" => $data],
       $this->options);
   }
 
-  protected function putRequest(String $route, $data=[]) {
-    return json_decode($this->request("PUT", $route, $data)
-      ->getBody()->getContents(), false);
+  private function wrapRequest(String $type, String $route, $data=[], callable $error_callback=null) {
+    try {
+      $result = $this->request($type, $route, $data);
+      if ($result->getStatusCode() > 298 || $result->getStatusCode() < 200) {
+        throw new \Exception($result->getBody()->getContents());
+      }
+      return json_decode($result->getBody()->getContents(), false);
+    } catch (\Exception $e) {
+      if ($error_callback !== null && is_callable($error_callback)) {
+        $error_callback($e);
+      }
+    }
+    return null;
   }
 
-  protected function deleteRequest(String $route, $data=[]) {
-    return $this->request("DELETE", $route, $data);
+  protected function getRequest(String $route, $data=[], callable $error_callback=null) {
+    return $this->wrapRequest("GET", $route, $data, $error_callback);
   }
 
-
-  protected function postRequest(String $route, $data=[]) {
-    return json_decode($this->request("POST", $route, $data)
-             ->getBody()->getContents(), false);
+  protected function deleteRequest(String $route, $data=[], callable $error_callback=null) {
+    return $this->wrapRequest("DELETE", $route, $data, $error_callback);
   }
 
-  protected function postMultipart(String $route, $data=[]) {
-    return $this->request("POST", $route, $data);
+  protected function postRequest(String $route, $data=[], callable $error_callback=null) {
+    return $this->wrapRequest("POST", $route, $data, $error_callback);
   }
-  
-  protected function uploadFile(String $route, String $path, String $filename) {
+
+  protected function putRequest(String $route, $data=[], callable $error_callback=null) {
+    return $this->wrapRequest("PUT", $route, $data, $error_callback);
+  }
+
+  protected function uploadFile(String $route,
+    String $filename, String $contents, callable $error_callback=null) {
     try {
       $multipart = [
         [
           "name" => "files[]",
           "filename" => $filename,
-          "contents" => file_get_contents($path)
+          "contents" => $contents 
         ]
       ];
-      return $this->request("POST", $route,
-        ["headers" => $this->headers,
-          "multipart" => $multipart
-        ], $this->options);
+      return json_decode(
+        $this->postMultipart($route, $multipart, $this->options)
+        ->getBody()->getContents());
     } catch(\Exception $e) {
-       $this->catchResponseFailure($e);
+      if ($error_callback !== null && is_callable($error_callback)) {
+        $error_callback($e);
+      }
     }
+    return null;
   }
 }
 
