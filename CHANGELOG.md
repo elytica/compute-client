@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.5](https://github.com/elytica/compute-client/compare/0.0.4...0.0.5) (2023-02-21)
+
+
+### Features
+
+* update guzzle and pawl. ([51c15d3](https://github.com/elytica/compute-client/commits/51c15d3a375c4aee8dce06afdc340a927514c4e6))
+
 ### [0.0.4](https://github.com/elytica/compute-client/compare/0.0.3...0.0.4) (2023-02-21)
 
 
