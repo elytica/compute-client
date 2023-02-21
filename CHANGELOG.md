@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.4](https://github.com/elytica/compute-client/compare/0.0.3...0.0.4) (2023-02-21)
+
+
+### Features
+
+* add download, upload, assign file, queue job and halt job functions. ([3cb99aa](https://github.com/elytica/compute-client/commits/3cb99aa3c9da93777d8d4dae5b6806c5fc490fe3))
+
 ### [0.0.3](https://github.com/elytica/compute-client/compare/0.0.2...0.0.3) (2023-02-20)
 
 
