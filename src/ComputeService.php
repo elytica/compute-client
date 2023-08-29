@@ -3,10 +3,10 @@ namespace Elytica\ComputeClient;
 use WebsocketClient;
 use Elytica\ComputeClient\Http;
 
-class HttpClient extends Http {
+class ComputeService extends Http {
   protected $user, $options, $headers;
 
-  function __construct($token, $base_url) {
+  function __construct($token, $base_url="https://service.elytica.com") {
     parent::__construct($token, $base_url);
     $this->user = $this->whoami();
     $this->options["timeout"] = 300;
