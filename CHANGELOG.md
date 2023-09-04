@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.1](https://github.com/elytica/compute-client/compare/v0.2.0...v0.2.1) (2023-09-04)
+
+
+### Bug Fixes
+
+* use array merge. ([0061a6f](https://github.com/elytica/compute-client/commit/0061a6f1f1ea3fadbef882b85c636ff957209e8e))
+
 ## [0.2.0](https://github.com/elytica/compute-client/compare/0.1.0...v0.2.0) (2023-09-04)
 
 
