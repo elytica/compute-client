@@ -52,12 +52,16 @@ class ComputeService extends Http {
     return $this->deleteRequest("api/projects/${project_id}", [], $error_callback);
   }
 
-  function createNewProject($project_name, $project_description, $application) {
+  function createNewProject($project_name, $project_description, $application, $webhook_url=null, $webhook_secret=null) {
     $data = array(
       "name" => $project_name,
       "description" => $project_description,
       "application" => $application
     );
+    if ($webhook_url && $webhook_secret) {
+      $data["webhook_url"] = $webhook_url;
+      $data["webhook_secret"] = $webhook_secret;
+    }
     return $this->postRequest("api/projects", $data);
   }
 
