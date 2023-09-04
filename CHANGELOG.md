@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/elytica/compute-client/compare/0.1.0...v0.2.0) (2023-09-04)
+
+
+### Features
+
+* add laravel service provider and validation rules. ([26010d4](https://github.com/elytica/compute-client/commit/26010d4c057045effce823d68440b9f2fcd14e56))
+* add please-release workflow. ([e8b8de2](https://github.com/elytica/compute-client/commit/e8b8de20e53ee8bc63435a48505787df793baf9d))
+
+
+### Bug Fixes
+
+* add webhook. ([c2cbbc0](https://github.com/elytica/compute-client/commit/c2cbbc06e567c1b043a73eb51326f6975ae5ffc5))
+* allow updatable projects. ([43c857e](https://github.com/elytica/compute-client/commit/43c857ec9e14edcd493d3e91ce1f2e5835125bec))
+
 ## [0.2.0](https://github.com/elytica/compute-client/compare/v0.1.0...v0.2.0) (2023-02-21)
 
 
