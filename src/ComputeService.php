@@ -65,6 +65,22 @@ class ComputeService extends Http {
     return $this->postRequest("api/projects", $data);
   }
 
+
+  function updateProject($project_id,
+    $webhook_url=null,
+    $webhook_secret=null,
+    $description=null,
+    $name=null,
+    $error_callback=null) {
+    $data = array();
+    $webhook_url ? array_push($data, 'webhook_url', $webhook_url) : null;
+    $webhook_secret ? array_push($data, 'webhook_secret', $webhook_secret) : null;
+    $name ? array_push($data, 'name', $name) : null;
+    $description ? array_push($data, 'description', $description) : null;
+    return $this->patchRequest("api/projects/$project_id",
+      $data, $error_callback);
+  }
+
   function createNewJob($project_id, $job_name) {
     $data = array(
       "name" => $job_name,

@@ -69,6 +69,10 @@ class Http {
     return $this->wrapRequest("PUT", $route, $data, $error_callback);
   }
 
+  protected function patchRequest(String $route, $data=[], callable $error_callback=null) {
+    return $this->wrapRequest("PATCH", $route, $data, $error_callback);
+  }
+
   protected function uploadFile(String $route,
     String $filename, String $contents, callable $error_callback=null) {
     try {
