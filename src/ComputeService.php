@@ -72,11 +72,12 @@ class ComputeService extends Http {
     $description=null,
     $name=null,
     $error_callback=null) {
-    $data = array();
-    $webhook_url ? array_push($data, 'webhook_url', $webhook_url) : null;
-    $webhook_secret ? array_push($data, 'webhook_secret', $webhook_secret) : null;
-    $name ? array_push($data, 'name', $name) : null;
-    $description ? array_push($data, 'description', $description) : null;
+    $data = array_merge(
+        $webhook_url ? ['webhook_url' => $webhook_url] : [],
+        $webhook_secret ? ['webhook_secret' => $webhook_secret] : [],
+        $name ? ['name' => $name] : [],
+        $description ? ['description' => $description] : []
+    );
     return $this->patchRequest("api/projects/$project_id",
       $data, $error_callback);
   }
