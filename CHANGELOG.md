@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://github.com/elytica/compute-client/compare/v0.2.1...v0.3.0) (2024-01-08)
+
+
+### Features
+
+* add function to get input files. ([4314f7f](https://github.com/elytica/compute-client/commit/4314f7f08dc4fd1896494f08db46ca19f7c3b570))
+
 ## [0.2.1](https://github.com/elytica/compute-client/compare/v0.2.0...v0.2.1) (2023-09-04)
 
 
