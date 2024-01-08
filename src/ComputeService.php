@@ -120,6 +120,11 @@ class ComputeService extends Http {
       $error_callback);
   }
 
+  function getInputFiles(int $project_id, callable $error_callback=null) {
+    return $this->getRequest("api/projects/$project_id/files",
+      $error_callback);
+  }
+
   function whoami() {
     return $this->getRequest("api/user");
   }
