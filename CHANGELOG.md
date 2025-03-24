@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.4.0](https://github.com/elytica/compute-client/compare/v0.3.0...v0.4.0) (2025-03-24)
+
+
+### Features
+
+* add laravel 12. ([8de5bf9](https://github.com/elytica/compute-client/commit/8de5bf9ea98039b5d0e2c41e98df01e5044e1338))
+
 ## [0.3.0](https://github.com/elytica/compute-client/compare/v0.2.1...v0.3.0) (2024-05-06)
 
 
