@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.4.1](https://github.com/elytica/compute-client/compare/v0.4.0...v0.4.1) (2025-03-24)
+
+
+### Bug Fixes
+
+* &gt;= laravel 12.x. ([162f9c7](https://github.com/elytica/compute-client/commit/162f9c74b0edab8351c45b00aac31f278aacbe0c))
+
 ## [0.4.0](https://github.com/elytica/compute-client/compare/v0.3.0...v0.4.0) (2025-03-24)
 
 
