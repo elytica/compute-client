@@ -4,16 +4,21 @@ use GuzzleHttp\Client;
 
 class Http {
   protected $user, $options, $headers, $httpClient, $base_url;
+
   function __construct($token, $url) {
     $this->headers = [
-      "Accept" => "application/json",
-      "Authorization" => "Bearer $token"
+      "Accept"        => "application/json",
+      "Authorization" => "Bearer $token",
     ];
     $this->base_url = $url;
     $this->options["timeout"] = 300;
-    $this->httpClient = new Client(['verify' => false]);
+    $this->httpClient = new Client(['verify' => true]);
   }
-  
+
+  public function setHttpClient($client) {
+    $this->httpClient = $client;
+  }
+
   protected function request(String $type, String $route, $data = []) {
     if (is_object($data)) {
       $data = (array)$data;
@@ -78,9 +83,9 @@ class Http {
     try {
       $multipart = [
         [
-          "name" => "files[]",
+          "name"     => "files[]",
           "filename" => $filename,
-          "contents" => $contents 
+          "contents" => $contents,
         ]
       ];
       return json_decode(
@@ -94,5 +99,3 @@ class Http {
     return null;
   }
 }
-
-?>
