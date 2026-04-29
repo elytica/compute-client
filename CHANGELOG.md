@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.5.0](https://github.com/elytica/compute-client/compare/v0.4.1...v0.5.0) (2026-04-29)
+
+
+### Features
+
+* V2 API, job status constants, SSL fix, Laravel 11-13 support ([8e17432](https://github.com/elytica/compute-client/commit/8e1743247d49423e2ec4ea6ea277e4e867aeb4e1))
+
 ## [0.4.1](https://github.com/elytica/compute-client/compare/v0.4.0...v0.4.1) (2025-03-24)
 
 
